@@ -8,16 +8,50 @@
 
 import SwiftUI
 
+enum Digit: UInt {
+    case one = 1
+    case two = 2
+    case three = 3
+    case four = 4
+    case five = 5
+    case six = 6
+    case seven = 7
+    case eight = 8
+    case nine = 9
+    case zero = 0
+}
+
+enum CalculatorButton {
+    case digit(Digit)
+    case clear
+
+    var text: String {
+        switch self {
+        case .digit(let value):
+            return String(value.rawValue)
+        case .clear:
+            return "C"
+        }
+    }
+}
+
 struct MainScreen: View {
     @State
     var displayingText = ""
 
-    private func button(for text: String) -> some View {
-        Button(text) {
-            displayingText += text
+    private func view(for calculatorButton: CalculatorButton) -> some View {
+        Button {
+            switch calculatorButton {
+                case .digit(let value):
+                    displayingText += String(value.rawValue)
+                case .clear:
+                    displayingText = ""
+            }
+        } label: {
+            Text(calculatorButton.text)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .scaledToFit()
-        .frame(idealWidth: 200)
+        .background(.green)
     }
 
     var body: some View {
@@ -25,21 +59,26 @@ struct MainScreen: View {
             Text(displayingText)
 
             HStack {
-                button(for: "1")
-                button(for: "2")
-                button(for: "3")
+                view(for: .digit(.one))
+                view(for: .digit(.two))
+                view(for: .digit(.three))
             }
 
             HStack {
-                button(for: "4")
-                button(for: "5")
-                button(for: "6")
+                view(for: .digit(.four))
+                view(for: .digit(.five))
+                view(for: .digit(.six))
             }
 
             HStack {
-                button(for: "7")
-                button(for: "8")
-                button(for: "9")
+                view(for: .digit(.seven))
+                view(for: .digit(.eight))
+                view(for: .digit(.nine))
+            }
+
+            HStack {
+                view(for: .digit(.zero))
+                view(for: .clear)
             }
         }
     }
