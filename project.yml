@@ -1,0 +1,13 @@
+name: Calcium
+options:
+  bundleIdPrefix: com.romanpodymov
+  deploymentTarget:
+    iOS: 15.0
+  xcodeVersion: "15.4"
+targets:
+  CalciumApp:
+    type: application
+    platform: iOS
+    sources: [Calcium]
+    info:
+      path: Calcium/Info.plist
