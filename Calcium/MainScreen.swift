@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+protocol CalculatorButtonRepresentable {
+    var displayingValue: String { get }
+}
+
 enum Digit: UInt {
     case one = 1
     case two = 2
@@ -21,25 +25,52 @@ enum Digit: UInt {
     case zero = 0
 }
 
+extension Digit: CalculatorButtonRepresentable {
+    var displayingValue: String {
+        String(rawValue)
+    }
+}
+
+enum Operation {
+    case plus
+    case minus
+    case multiply
+    case divide
+    case equals
+}
+
+extension Operation: CalculatorButtonRepresentable {
+    var displayingValue: String {
+        switch self {
+            case .plus:
+                return "+"
+            case .minus:
+                return "-"
+            case .multiply:
+                return "*"
+            case .divide:
+                return "/"
+            case .equals:
+                return "="
+        }
+    }
+}
+
 enum CalculatorButton {
     case digit(Digit)
     case clear
-    case plus
-    case minus
-    case equals
+    case operation(Operation)
+}
 
-    var text: String {
+extension CalculatorButton: CalculatorButtonRepresentable {
+    var displayingValue: String {
         switch self {
         case .digit(let value):
-            return String(value.rawValue)
+            return value.displayingValue
         case .clear:
             return "C"
-        case .plus:
-            return "+"
-        case .minus:
-            return "-"
-        case .equals:
-            return "="
+        case .operation(let operation):
+            return operation.displayingValue
         }
     }
 }
@@ -61,26 +92,31 @@ struct MainScreen: View {
                     displayingText += String(value.rawValue)
                 case .clear:
                     displayingText = ""
-            case .plus:
-                latestOperationButton = .plus
-                leftValue = displayingText
-                displayingText = ""
-            case .minus:
-                latestOperationButton = .minus
-                leftValue = displayingText
-                displayingText = ""
-            case .equals:
-                switch latestOperationButton {
-                    case .minus:
-                        displayingText = String(Int(leftValue)! - Int(displayingText)!)
-                    case .plus:
-                        displayingText = String(Int(leftValue)! + Int(displayingText)!)
-                    default:
-                        break
+            case .operation(let value):
+                switch value {
+                case .plus:
+                    latestOperationButton = calculatorButton
+                    leftValue = displayingText
+                    displayingText = ""
+                case .minus:
+                    latestOperationButton = calculatorButton
+                    leftValue = displayingText
+                    displayingText = ""
+                case .equals:
+                    switch latestOperationButton {
+                        case .operation(let operation) where operation == .minus:
+                            displayingText = String(Int(leftValue)! - Int(displayingText)!)
+                        case .operation(let operation) where operation == .plus:
+                            displayingText = String(Int(leftValue)! + Int(displayingText)!)
+                        default:
+                            break
+                    }
+                default:
+                    break
                 }
             }
         } label: {
-            Text(calculatorButton.text)
+            Text(calculatorButton.displayingValue)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(.green)
@@ -114,9 +150,9 @@ struct MainScreen: View {
             }
 
             HStack {
-                view(for: .plus)
-                view(for: .minus)
-                view(for: .equals)
+                view(for: .operation(.plus))
+                view(for: .operation(.minus))
+                view(for: .operation(.equals))
             }
         }
     }
