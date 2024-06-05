@@ -24,6 +24,9 @@ enum Digit: UInt {
 enum CalculatorButton {
     case digit(Digit)
     case clear
+    case plus
+    case minus
+    case equals
 
     var text: String {
         switch self {
@@ -31,13 +34,25 @@ enum CalculatorButton {
             return String(value.rawValue)
         case .clear:
             return "C"
+        case .plus:
+            return "+"
+        case .minus:
+            return "-"
+        case .equals:
+            return "="
         }
     }
 }
 
 struct MainScreen: View {
     @State
+    private var leftValue = ""
+
+    @State
     var displayingText = ""
+
+    @State
+    var latestOperationButton: CalculatorButton?
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
@@ -46,6 +61,23 @@ struct MainScreen: View {
                     displayingText += String(value.rawValue)
                 case .clear:
                     displayingText = ""
+            case .plus:
+                latestOperationButton = .plus
+                leftValue = displayingText
+                displayingText = ""
+            case .minus:
+                latestOperationButton = .minus
+                leftValue = displayingText
+                displayingText = ""
+            case .equals:
+                switch latestOperationButton {
+                    case .minus:
+                        displayingText = String(Int(leftValue)! - Int(displayingText)!)
+                    case .plus:
+                        displayingText = String(Int(leftValue)! + Int(displayingText)!)
+                    default:
+                        break
+                }
             }
         } label: {
             Text(calculatorButton.text)
@@ -79,6 +111,12 @@ struct MainScreen: View {
             HStack {
                 view(for: .digit(.zero))
                 view(for: .clear)
+            }
+
+            HStack {
+                view(for: .plus)
+                view(for: .minus)
+                view(for: .equals)
             }
         }
     }
