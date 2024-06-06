@@ -11,3 +11,11 @@ targets:
     sources: [Calcium]
     info:
       path: Calcium/Info.plist
+  CalciumAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [CalciumTests]
+    dependencies:
+      - target: CalciumApp
+    info:
+      path: CalciumTests/Info.plist
