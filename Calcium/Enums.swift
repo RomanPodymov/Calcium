@@ -35,6 +35,21 @@ enum Operation {
     case multiply
     case divide
     case equals
+
+    func calculateValue(lhs: Int, rhs: Int) -> Int {
+        switch self {
+        case .plus:
+            lhs + rhs
+        case .minus:
+            lhs - rhs
+        case .multiply:
+            lhs * rhs
+        case .divide:
+            lhs / rhs
+        case .equals:
+            0
+        }
+    }
 }
 
 extension Operation: CalculatorButtonRepresentable {

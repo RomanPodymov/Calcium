@@ -37,14 +37,11 @@ struct MainScreen: View {
                     onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .equals:
                     switch latestOperationButton {
-                    case let .operation(operation) where operation == .minus:
-                        displayingText = String(Int(leftValue)! - Int(displayingText)!)
-                    case let .operation(operation) where operation == .plus:
-                        displayingText = String(Int(leftValue)! + Int(displayingText)!)
-                    case let .operation(operation) where operation == .multiply:
-                        displayingText = String(Int(leftValue)! * Int(displayingText)!)
-                    case let .operation(operation) where operation == .divide:
-                        displayingText = String(Int(leftValue)! / Int(displayingText)!)
+                    case let .operation(operation):
+                        displayingText = String(operation.calculateValue(
+                            lhs: Int(leftValue)!,
+                            rhs: Int(displayingText)!)
+                        )
                     default:
                         break
                     }
