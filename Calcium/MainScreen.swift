@@ -35,12 +35,24 @@ struct MainScreen: View {
                     latestOperationButton = calculatorButton
                     leftValue = displayingText
                     displayingText = ""
+                case .multiply:
+                    latestOperationButton = calculatorButton
+                    leftValue = displayingText
+                    displayingText = ""
+                case .divide:
+                    latestOperationButton = calculatorButton
+                    leftValue = displayingText
+                    displayingText = ""
                 case .equals:
                     switch latestOperationButton {
                         case .operation(let operation) where operation == .minus:
                             displayingText = String(Int(leftValue)! - Int(displayingText)!)
                         case .operation(let operation) where operation == .plus:
                             displayingText = String(Int(leftValue)! + Int(displayingText)!)
+                        case .operation(let operation) where operation == .multiply:
+                            displayingText = String(Int(leftValue)! * Int(displayingText)!)
+                        case .operation(let operation) where operation == .divide:
+                            displayingText = String(Int(leftValue)! / Int(displayingText)!)
                         default:
                             break
                     }
@@ -85,6 +97,8 @@ struct MainScreen: View {
             HStack {
                 view(for: .operation(.plus))
                 view(for: .operation(.minus))
+                view(for: .operation(.multiply))
+                view(for: .operation(.divide))
                 view(for: .operation(.equals))
             }
         }
