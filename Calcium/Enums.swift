@@ -40,16 +40,16 @@ enum Operation {
 extension Operation: CalculatorButtonRepresentable {
     var displayingValue: String {
         switch self {
-            case .plus:
-                return "+"
-            case .minus:
-                return "-"
-            case .multiply:
-                return "*"
-            case .divide:
-                return "/"
-            case .equals:
-                return "="
+        case .plus:
+            "+"
+        case .minus:
+            "-"
+        case .multiply:
+            "*"
+        case .divide:
+            "/"
+        case .equals:
+            "="
         }
     }
 }
@@ -63,12 +63,12 @@ enum CalculatorButton {
 extension CalculatorButton: CalculatorButtonRepresentable {
     var displayingValue: String {
         switch self {
-        case .digit(let value):
-            return value.displayingValue
+        case let .digit(value):
+            value.displayingValue
         case .clear:
-            return "C"
-        case .operation(let operation):
-            return operation.displayingValue
+            "C"
+        case let .operation(operation):
+            operation.displayingValue
         }
     }
 }

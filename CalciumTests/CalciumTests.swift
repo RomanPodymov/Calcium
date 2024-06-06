@@ -9,5 +9,5 @@
 import XCTest
 
 class CalciumTests: XCTestCase {
-    func test() { }
+    func test() {}
 }

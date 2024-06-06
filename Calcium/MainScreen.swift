@@ -21,11 +21,11 @@ struct MainScreen: View {
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
             switch calculatorButton {
-                case .digit(let value):
-                    displayingText += String(value.rawValue)
-                case .clear:
-                    displayingText = ""
-            case .operation(let value):
+            case let .digit(value):
+                displayingText += String(value.rawValue)
+            case .clear:
+                displayingText = ""
+            case let .operation(value):
                 switch value {
                 case .plus:
                     onOperationButtonPressed(calculatorButton: calculatorButton)
@@ -37,16 +37,16 @@ struct MainScreen: View {
                     onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .equals:
                     switch latestOperationButton {
-                        case .operation(let operation) where operation == .minus:
-                            displayingText = String(Int(leftValue)! - Int(displayingText)!)
-                        case .operation(let operation) where operation == .plus:
-                            displayingText = String(Int(leftValue)! + Int(displayingText)!)
-                        case .operation(let operation) where operation == .multiply:
-                            displayingText = String(Int(leftValue)! * Int(displayingText)!)
-                        case .operation(let operation) where operation == .divide:
-                            displayingText = String(Int(leftValue)! / Int(displayingText)!)
-                        default:
-                            break
+                    case let .operation(operation) where operation == .minus:
+                        displayingText = String(Int(leftValue)! - Int(displayingText)!)
+                    case let .operation(operation) where operation == .plus:
+                        displayingText = String(Int(leftValue)! + Int(displayingText)!)
+                    case let .operation(operation) where operation == .multiply:
+                        displayingText = String(Int(leftValue)! * Int(displayingText)!)
+                    case let .operation(operation) where operation == .divide:
+                        displayingText = String(Int(leftValue)! / Int(displayingText)!)
+                    default:
+                        break
                     }
                 }
             }

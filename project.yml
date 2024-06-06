@@ -11,6 +11,11 @@ targets:
     sources: [Calcium]
     info:
       path: Calcium/Info.plist
+    postCompileScripts:
+      - script: "mint run swiftformat . --swiftversion 5.9"
+        name: SwiftFormat
+      - script: "mint run swiftlint"
+        name: SwiftLint
   CalciumAppTests:
     type: bundle.unit-test
     platform: iOS
@@ -19,3 +24,8 @@ targets:
       - target: CalciumApp
     info:
       path: CalciumTests/Info.plist
+    postCompileScripts:
+      - script: "mint run swiftformat . --swiftversion 5.9"
+        name: SwiftFormat
+      - script: "mint run swiftlint"
+        name: SwiftLint
