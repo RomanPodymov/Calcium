@@ -16,7 +16,7 @@ struct MainScreen: View {
     var displayingText = ""
 
     @State
-    var latestOperationButton: CalculatorButton?
+    private var latestOperationButton: CalculatorButton?
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
@@ -28,21 +28,13 @@ struct MainScreen: View {
             case .operation(let value):
                 switch value {
                 case .plus:
-                    latestOperationButton = calculatorButton
-                    leftValue = displayingText
-                    displayingText = ""
+                    onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .minus:
-                    latestOperationButton = calculatorButton
-                    leftValue = displayingText
-                    displayingText = ""
+                    onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .multiply:
-                    latestOperationButton = calculatorButton
-                    leftValue = displayingText
-                    displayingText = ""
+                    onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .divide:
-                    latestOperationButton = calculatorButton
-                    leftValue = displayingText
-                    displayingText = ""
+                    onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .equals:
                     switch latestOperationButton {
                         case .operation(let operation) where operation == .minus:
@@ -56,8 +48,6 @@ struct MainScreen: View {
                         default:
                             break
                     }
-                default:
-                    break
                 }
             }
         } label: {
@@ -65,6 +55,12 @@ struct MainScreen: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(.green)
+    }
+
+    private func onOperationButtonPressed(calculatorButton: CalculatorButton) {
+        latestOperationButton = calculatorButton
+        leftValue = displayingText
+        displayingText = ""
     }
 
     var body: some View {
