@@ -10,41 +10,37 @@ import SwiftUI
 
 struct MainScreen: View {
     @State
-    private var leftValue = ""
-
-    @State
-    var displayingText = ""
-
-    @State
-    private var latestOperationButton: CalculatorButton?
+    var presenter = MainPresenter()
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
             switch calculatorButton {
             case let .digit(value):
-                displayingText += String(value.rawValue)
+                presenter.onDigitButtonPressed(value: value)
             case .clear:
-                displayingText = ""
+                presenter.displayingText = ""
             case let .operation(value):
                 switch value {
                 case .plus:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
+                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .minus:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
+                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .multiply:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
+                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .divide:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
+                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .equals:
-                    switch latestOperationButton {
+                    switch presenter.latestOperationButton {
                     case let .operation(operation):
-                        displayingText = String(operation.calculateValue(
-                            lhs: Int(leftValue)!,
-                            rhs: Int(displayingText)!)
+                        presenter.displayingText = String(operation.calculateValue(
+                            lhs: Int(presenter.leftValue)!,
+                            rhs: Int(presenter.displayingText)!
+                        )
                         )
                     default:
                         break
                     }
+                    presenter.latestOperationButton = .operation(.equals)
                 }
             }
         } label: {
@@ -54,15 +50,9 @@ struct MainScreen: View {
         .background(.green)
     }
 
-    private func onOperationButtonPressed(calculatorButton: CalculatorButton) {
-        latestOperationButton = calculatorButton
-        leftValue = displayingText
-        displayingText = ""
-    }
-
     var body: some View {
         VStack {
-            Text(displayingText)
+            Text(presenter.displayingText)
 
             HStack {
                 view(for: .digit(.one))
