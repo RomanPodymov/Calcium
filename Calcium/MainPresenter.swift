@@ -6,6 +6,29 @@
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
+import ComposableArchitecture
+
+@Reducer
+struct MainReducer {
+    @ObservableState
+    struct State: Equatable {
+        var displayingText = ""
+    }
+
+    enum Action: Sendable {
+        case evaluate
+    }
+
+    var body: some Reducer<State, Action> {
+        Reduce { _, action in
+            switch action {
+            case .evaluate:
+                .none
+            }
+        }
+    }
+}
+
 struct MainPresenter {
     var leftValue = ""
     var displayingText = ""

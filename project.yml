@@ -4,11 +4,17 @@ options:
   deploymentTarget:
     iOS: 15.0
   xcodeVersion: "15.4"
+packages:
+  ComposableArchitecture:
+    url: https://github.com/pointfreeco/swift-composable-architecture
+    version: 1.11.2
 targets:
   CalciumApp:
     type: application
     platform: iOS
     sources: [Calcium]
+    dependencies:
+      - package: ComposableArchitecture
     info:
       path: Calcium/Info.plist
     postCompileScripts:

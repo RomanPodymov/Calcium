@@ -6,11 +6,14 @@
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct MainScreen: View {
     @State
     var presenter = MainPresenter()
+
+    @Perception.Bindable var store: StoreOf<MainReducer>
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
