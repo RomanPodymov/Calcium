@@ -29,7 +29,7 @@ extension Digit: CalculatorButtonRepresentable {
     }
 }
 
-enum Operation {
+enum Operation: Equatable {
     case plus
     case minus
     case multiply
@@ -69,7 +69,7 @@ extension Operation: CalculatorButtonRepresentable {
     }
 }
 
-enum CalculatorButton {
+enum CalculatorButton: Equatable {
     case digit(Digit)
     case clear
     case operation(Operation)

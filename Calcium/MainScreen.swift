@@ -17,6 +17,8 @@ struct MainScreen: View {
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
+            store.send(.enterText("+"))
+
             switch calculatorButton {
             case let .digit(value):
                 presenter.onDigitButtonPressed(value: value)

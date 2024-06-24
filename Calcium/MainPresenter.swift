@@ -16,14 +16,15 @@ struct MainReducer {
     }
 
     enum Action: Sendable {
-        case evaluate
+        case enterText(String)
     }
 
     var body: some Reducer<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .evaluate:
-                .none
+            case let .enterText(value):
+                state.displayingText += value
+                return .none
             }
         }
     }

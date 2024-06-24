@@ -14,7 +14,9 @@ struct CalciumApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen(
-                store: Store(initialState: MainReducer.State()) {}
+                store: Store(initialState: MainReducer.State()) {
+                    MainReducer()
+                }
             )
         }
     }
