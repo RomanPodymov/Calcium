@@ -6,13 +6,14 @@
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
+import BigNumber
 import ComposableArchitecture
 
 @Reducer
 struct MainReducer {
     @ObservableState
     struct State: Equatable {
-        var leftValue = ""
+        var leftValue: BInt?
         var displayingText = ""
         var latestOperationButton: CalculatorButton?
 
@@ -29,7 +30,7 @@ struct MainReducer {
 
         private mutating func onOperationButtonPressed(calculatorButton: CalculatorButton) {
             latestOperationButton = calculatorButton
-            leftValue = displayingText
+            leftValue = .init(displayingText)
             displayingText = ""
         }
 
@@ -52,10 +53,11 @@ struct MainReducer {
                 case .equals:
                     switch latestOperationButton {
                     case let .operation(operation):
-                        displayingText = String(operation.calculateValue(
-                            lhs: Int(leftValue)!,
-                            rhs: Int(displayingText)!
-                        )
+                        displayingText = String(
+                            operation.calculateValue(
+                                lhs: leftValue!,
+                                rhs: BInt(displayingText)!
+                            )
                         )
                     default:
                         break

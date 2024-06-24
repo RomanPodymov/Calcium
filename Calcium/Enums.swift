@@ -6,6 +6,8 @@
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
+import BigNumber
+
 protocol CalculatorButtonRepresentable {
     var displayingValue: String { get }
 }
@@ -36,7 +38,7 @@ enum Operation: Equatable {
     case divide
     case equals
 
-    func calculateValue(lhs: Int, rhs: Int) -> Int {
+    func calculateValue(lhs: BInt, rhs: BInt) -> BInt {
         switch self {
         case .plus:
             lhs + rhs

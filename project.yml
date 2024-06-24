@@ -8,6 +8,9 @@ packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture
     version: 1.11.2
+  BigNumber:
+    url: https://github.com/mkrd/Swift-BigInt
+    version: 2.3.0
 targets:
   CalciumApp:
     type: application
@@ -15,6 +18,7 @@ targets:
     sources: [Calcium]
     dependencies:
       - package: ComposableArchitecture
+      - package: BigNumber
     info:
       path: Calcium/Info.plist
     postCompileScripts:
