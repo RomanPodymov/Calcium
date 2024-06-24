@@ -34,7 +34,7 @@ struct MainReducer {
             displayingText = ""
         }
 
-        mutating func onButtonPressed(calculatorButton: CalculatorButton) {
+        mutating func onButtonPressed(calculatorButton: CalculatorButton) -> Operation? {
             switch calculatorButton {
             case let .digit(value):
                 onDigitButtonPressed(value: value)
@@ -53,32 +53,48 @@ struct MainReducer {
                 case .equals:
                     switch latestOperationButton {
                     case let .operation(operation):
-                        displayingText = String(
-                            operation.calculateValue(
-                                lhs: leftValue!,
-                                rhs: BInt(displayingText)!
-                            )
-                        )
+                        return operation
                     default:
                         break
                     }
-                    latestOperationButton = .operation(.equals)
                 }
             }
+            return nil
         }
     }
 
     enum Action: Sendable {
         case pressButton(CalculatorButton)
+        case calculated(BInt)
     }
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case let .pressButton(button):
-                state.onButtonPressed(calculatorButton: button)
+                let lhs = state.leftValue
+                let rhs = BInt(state.displayingText)
+                if let operation = state.onButtonPressed(calculatorButton: button) {
+                    return .run { send in
+                        await send(
+                            .calculated(
+                                operation.calculateValue(
+                                    lhs: lhs!,
+                                    rhs: rhs!
+                                )
+                            )
+                        )
+                    }
+                } else {
+                    return .none
+                }
+            case let .calculated(value):
+                state.displayingText = String(value)
+                state.latestOperationButton = .operation(.equals)
                 return .none
             }
         }
     }
 }
+
+extension BInt: @unchecked Sendable {}
