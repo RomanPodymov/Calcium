@@ -10,44 +10,11 @@ import ComposableArchitecture
 import SwiftUI
 
 struct MainScreen: View {
-    @State
-    var presenter = MainPresenter()
-
     @Perception.Bindable var store: StoreOf<MainReducer>
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
-            store.send(.enterText("+"))
-
-            switch calculatorButton {
-            case let .digit(value):
-                presenter.onDigitButtonPressed(value: value)
-            case .clear:
-                presenter.displayingText = ""
-            case let .operation(value):
-                switch value {
-                case .plus:
-                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .minus:
-                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .multiply:
-                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .divide:
-                    presenter.onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .equals:
-                    switch presenter.latestOperationButton {
-                    case let .operation(operation):
-                        presenter.displayingText = String(operation.calculateValue(
-                            lhs: Int(presenter.leftValue)!,
-                            rhs: Int(presenter.displayingText)!
-                        )
-                        )
-                    default:
-                        break
-                    }
-                    presenter.latestOperationButton = .operation(.equals)
-                }
-            }
+            store.send(.pressButton(calculatorButton))
         } label: {
             Text(calculatorButton.displayingValue)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -57,7 +24,7 @@ struct MainScreen: View {
 
     var body: some View {
         VStack {
-            Text(presenter.displayingText)
+            Text(store.state.displayingText)
 
             HStack {
                 view(for: .digit(.one))
