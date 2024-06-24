@@ -1,8 +1,8 @@
 //
-//  MainPresenter.swift
+//  MainReducer.swift
 //  Calcium
 //
-//  Created by Roman Podymov on 07/06/2024.
+//  Created by Roman Podymov on 24/06/2024.
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
