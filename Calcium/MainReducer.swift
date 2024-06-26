@@ -68,6 +68,8 @@ struct MainReducer {
         case calculated(BInt)
     }
 
+    private enum CancelID { case calculateValue }
+
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
@@ -76,17 +78,17 @@ struct MainReducer {
                 let rhs = BInt(state.displayingText)
                 if let operation = state.onButtonPressed(calculatorButton: button) {
                     return .run { send in
-                        await send(
-                            .calculated(
-                                operation.calculateValue(
-                                    lhs: lhs!,
-                                    rhs: rhs!
-                                )
+                        let value = await Task {
+                            operation.calculateValue(
+                                lhs: lhs!,
+                                rhs: rhs!
                             )
-                        )
+                        }.value
+                        await send(.calculated(value), animation: .calciumDefault)
                     }
+                    .cancellable(id: CancelID.calculateValue, cancelInFlight: true)
                 } else {
-                    return .none
+                    return .cancel(id: CancelID.calculateValue)
                 }
             case let .calculated(value):
                 state.displayingText = String(value)

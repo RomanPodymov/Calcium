@@ -9,12 +9,18 @@
 import ComposableArchitecture
 import SwiftUI
 
+extension Animation {
+    static var calciumDefault: Animation {
+        .easeIn(duration: 0.1)
+    }
+}
+
 struct MainScreen: View {
     @Perception.Bindable var store: StoreOf<MainReducer>
 
     private func view(for calculatorButton: CalculatorButton) -> some View {
         Button {
-            store.send(.pressButton(calculatorButton))
+            store.send(.pressButton(calculatorButton), animation: .calciumDefault)
         } label: {
             Text(calculatorButton.displayingValue)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
