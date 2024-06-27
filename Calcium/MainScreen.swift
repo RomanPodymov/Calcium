@@ -53,7 +53,7 @@ struct MainScreen: View {
 
             HStack {
                 view(for: .digit(.zero), enabled: store.state.enabled0)
-                view(for: .operation(.factorial))
+                view(for: .operation(.factorial), enabled: store.state.enabledFactorial)
                 view(for: .clear)
             }
 

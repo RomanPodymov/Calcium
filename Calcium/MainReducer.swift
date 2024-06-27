@@ -28,6 +28,7 @@ struct MainReducer {
         var enabledMinus = true
         var enabledMultiply = true
         var enabledDivide = true
+        var enabledFactorial = true
 
         var leftValue: BInt?
         var displayingText = ""
@@ -51,25 +52,30 @@ struct MainReducer {
             switch calculatorButton {
             case let .operation(operation):
                 if operation.isUnary {
-                    enabled0 = false
-                    enabled1 = false
-                    enabled2 = false
-                    enabled3 = false
-                    enabled4 = false
-                    enabled5 = false
-                    enabled6 = false
-                    enabled7 = false
-                    enabled8 = false
-                    enabled9 = false
-
-                    enabledPlus = false
-                    enabledMinus = false
-                    enabledMultiply = false
-                    enabledDivide = false
+                    set(enabled: false)
                 }
             default:
                 break
             }
+        }
+
+        mutating func set(enabled: Bool) {
+            enabled0 = enabled
+            enabled1 = enabled
+            enabled2 = enabled
+            enabled3 = enabled
+            enabled4 = enabled
+            enabled5 = enabled
+            enabled6 = enabled
+            enabled7 = enabled
+            enabled8 = enabled
+            enabled9 = enabled
+
+            enabledPlus = enabled
+            enabledMinus = enabled
+            enabledMultiply = enabled
+            enabledDivide = enabled
+            enabledFactorial = enabled
         }
 
         mutating func onButtonPressed(calculatorButton: CalculatorButton) -> Operation? {
@@ -126,21 +132,7 @@ struct MainReducer {
                 state.displayingText = String(value)
                 state.latestOperationButton = .operation(.equals)
 
-                state.enabled0 = true
-                state.enabled1 = true
-                state.enabled2 = true
-                state.enabled3 = true
-                state.enabled4 = true
-                state.enabled5 = true
-                state.enabled6 = true
-                state.enabled7 = true
-                state.enabled8 = true
-                state.enabled9 = true
-
-                state.enabledPlus = true
-                state.enabledMinus = true
-                state.enabledMultiply = true
-                state.enabledDivide = true
+                state.set(enabled: true)
 
                 return .none
             }
