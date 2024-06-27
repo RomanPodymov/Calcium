@@ -36,6 +36,7 @@ enum Operation: Equatable {
     case minus
     case multiply
     case divide
+    case factorial
     case equals
 
     func calculateValue(lhs: BInt, rhs: BInt) -> BInt {
@@ -48,8 +49,19 @@ enum Operation: Equatable {
             lhs * rhs
         case .divide:
             lhs / rhs
+        case .factorial:
+            lhs.factorial()
         case .equals:
             0
+        }
+    }
+
+    var isUnary: Bool {
+        switch self {
+        case .factorial:
+            true
+        default:
+            false
         }
     }
 }
@@ -65,6 +77,8 @@ extension Operation: CalculatorButtonRepresentable {
             "*"
         case .divide:
             "/"
+        case .factorial:
+            "!"
         case .equals:
             "="
         }

@@ -13,6 +13,22 @@ import ComposableArchitecture
 struct MainReducer {
     @ObservableState
     struct State: Equatable {
+        var enabled1 = true
+        var enabled2 = true
+        var enabled3 = true
+        var enabled4 = true
+        var enabled5 = true
+        var enabled6 = true
+        var enabled7 = true
+        var enabled8 = true
+        var enabled9 = true
+        var enabled0 = true
+
+        var enabledPlus = true
+        var enabledMinus = true
+        var enabledMultiply = true
+        var enabledDivide = true
+
         var leftValue: BInt?
         var displayingText = ""
         var latestOperationButton: CalculatorButton?
@@ -32,6 +48,28 @@ struct MainReducer {
             latestOperationButton = calculatorButton
             leftValue = .init(displayingText)
             displayingText = ""
+            switch calculatorButton {
+            case let .operation(operation):
+                if operation.isUnary {
+                    enabled0 = false
+                    enabled1 = false
+                    enabled2 = false
+                    enabled3 = false
+                    enabled4 = false
+                    enabled5 = false
+                    enabled6 = false
+                    enabled7 = false
+                    enabled8 = false
+                    enabled9 = false
+
+                    enabledPlus = false
+                    enabledMinus = false
+                    enabledMultiply = false
+                    enabledDivide = false
+                }
+            default:
+                break
+            }
         }
 
         mutating func onButtonPressed(calculatorButton: CalculatorButton) -> Operation? {
@@ -42,13 +80,7 @@ struct MainReducer {
                 displayingText = ""
             case let .operation(value):
                 switch value {
-                case .plus:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .minus:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .multiply:
-                    onOperationButtonPressed(calculatorButton: calculatorButton)
-                case .divide:
+                case .plus, .minus, .multiply, .divide, .factorial:
                     onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .equals:
                     switch latestOperationButton {
@@ -93,6 +125,23 @@ struct MainReducer {
             case let .calculated(value):
                 state.displayingText = String(value)
                 state.latestOperationButton = .operation(.equals)
+
+                state.enabled0 = true
+                state.enabled1 = true
+                state.enabled2 = true
+                state.enabled3 = true
+                state.enabled4 = true
+                state.enabled5 = true
+                state.enabled6 = true
+                state.enabled7 = true
+                state.enabled8 = true
+                state.enabled9 = true
+
+                state.enabledPlus = true
+                state.enabledMinus = true
+                state.enabledMultiply = true
+                state.enabledDivide = true
+
                 return .none
             }
         }

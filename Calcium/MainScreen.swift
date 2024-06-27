@@ -18,13 +18,14 @@ extension Animation {
 struct MainScreen: View {
     @Perception.Bindable var store: StoreOf<MainReducer>
 
-    private func view(for calculatorButton: CalculatorButton) -> some View {
+    private func view(for calculatorButton: CalculatorButton, enabled: Bool = true) -> some View {
         Button {
             store.send(.pressButton(calculatorButton), animation: .calciumDefault)
         } label: {
             Text(calculatorButton.displayingValue)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .disabled(!enabled)
         .background(.green)
     }
 
@@ -33,33 +34,34 @@ struct MainScreen: View {
             Text(store.state.displayingText)
 
             HStack {
-                view(for: .digit(.one))
-                view(for: .digit(.two))
-                view(for: .digit(.three))
+                view(for: .digit(.one), enabled: store.state.enabled1)
+                view(for: .digit(.two), enabled: store.state.enabled2)
+                view(for: .digit(.three), enabled: store.state.enabled3)
             }
 
             HStack {
-                view(for: .digit(.four))
-                view(for: .digit(.five))
-                view(for: .digit(.six))
+                view(for: .digit(.four), enabled: store.state.enabled4)
+                view(for: .digit(.five), enabled: store.state.enabled5)
+                view(for: .digit(.six), enabled: store.state.enabled6)
             }
 
             HStack {
-                view(for: .digit(.seven))
-                view(for: .digit(.eight))
-                view(for: .digit(.nine))
+                view(for: .digit(.seven), enabled: store.state.enabled7)
+                view(for: .digit(.eight), enabled: store.state.enabled8)
+                view(for: .digit(.nine), enabled: store.state.enabled9)
             }
 
             HStack {
-                view(for: .digit(.zero))
+                view(for: .digit(.zero), enabled: store.state.enabled0)
+                view(for: .operation(.factorial))
                 view(for: .clear)
             }
 
             HStack {
-                view(for: .operation(.plus))
-                view(for: .operation(.minus))
-                view(for: .operation(.multiply))
-                view(for: .operation(.divide))
+                view(for: .operation(.plus), enabled: store.state.enabledPlus)
+                view(for: .operation(.minus), enabled: store.state.enabledMinus)
+                view(for: .operation(.multiply), enabled: store.state.enabledMultiply)
+                view(for: .operation(.divide), enabled: store.state.enabledDivide)
                 view(for: .operation(.equals))
             }
         }
