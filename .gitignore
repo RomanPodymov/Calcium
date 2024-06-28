@@ -1,3 +1,10 @@
 Calcium.xcodeproj
 Calcium/Info.plist
 CalciumTests/Info.plist
+.idea
+.gradle/
+CalciumCommon/build/
+local.properties
+gradle/
+gradlew
+gradlew.bat

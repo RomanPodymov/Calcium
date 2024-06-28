@@ -7,27 +7,15 @@
 //
 
 import BigNumber
+import CalciumCommon
 
 protocol CalculatorButtonRepresentable {
     var displayingValue: String { get }
 }
 
-enum Digit: UInt {
-    case one = 1
-    case two = 2
-    case three = 3
-    case four = 4
-    case five = 5
-    case six = 6
-    case seven = 7
-    case eight = 8
-    case nine = 9
-    case zero = 0
-}
-
-extension Digit: CalculatorButtonRepresentable {
+extension CalciumCommon.Digit: CalculatorButtonRepresentable {
     var displayingValue: String {
-        String(rawValue)
+        String(value)
     }
 }
 
@@ -86,7 +74,7 @@ extension Operation: CalculatorButtonRepresentable {
 }
 
 enum CalculatorButton: Equatable {
-    case digit(Digit)
+    case digit(CalciumCommon.Digit)
     case clear
     case operation(Operation)
 }

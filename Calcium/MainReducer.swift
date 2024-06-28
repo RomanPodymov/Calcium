@@ -7,6 +7,7 @@
 //
 
 import BigNumber
+import CalciumCommon
 import ComposableArchitecture
 
 enum MainReducerError: Error {
@@ -41,7 +42,7 @@ struct MainReducer {
         var displayingText = ""
         var latestOperationButton: CalculatorButton?
 
-        private mutating func onDigitButtonPressed(value: Digit) {
+        private mutating func onDigitButtonPressed(value: CalciumCommon.Digit) {
             switch latestOperationButton {
             case .operation(.equals):
                 displayingText = ""
@@ -49,7 +50,7 @@ struct MainReducer {
             default:
                 break
             }
-            displayingText += String(value.rawValue)
+            displayingText += value.displayingValue
         }
 
         private mutating func onOperationButtonPressed(calculatorButton: CalculatorButton) {

@@ -17,6 +17,7 @@ targets:
     platform: iOS
     sources: [Calcium]
     dependencies:
+      - framework: CalciumCommon/build/XCFrameworks/release/CalciumCommon.xcframework
       - package: ComposableArchitecture
       - package: BigNumber
     info:
