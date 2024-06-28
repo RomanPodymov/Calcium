@@ -5,5 +5,4 @@ CalciumTests/Info.plist
 .gradle/
 CalciumCommon/build/
 local.properties
-gradle/
 gradlew.bat
