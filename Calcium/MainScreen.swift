@@ -18,7 +18,7 @@ extension Animation {
 struct MainScreen: View {
     @Perception.Bindable var store: StoreOf<MainReducer>
 
-    private func view(for calculatorButton: CalculatorButton, enabled: Bool = true) -> some View {
+    private func view(for calculatorButton: CalculatorButton, enabled: Bool) -> some View {
         Button {
             store.send(.pressButton(calculatorButton), animation: .calciumDefault)
         } label: {
@@ -54,7 +54,7 @@ struct MainScreen: View {
             HStack {
                 view(for: .digit(.zero), enabled: store.state.enabled0)
                 view(for: .operation(.factorial), enabled: store.state.enabledFactorial)
-                view(for: .clear)
+                view(for: .clear, enabled: store.state.enabledClear)
             }
 
             HStack {
@@ -62,7 +62,7 @@ struct MainScreen: View {
                 view(for: .operation(.minus), enabled: store.state.enabledMinus)
                 view(for: .operation(.multiply), enabled: store.state.enabledMultiply)
                 view(for: .operation(.divide), enabled: store.state.enabledDivide)
-                view(for: .operation(.equals))
+                view(for: .operation(.equals), enabled: store.state.enabledEquals)
             }
         }
     }

@@ -9,6 +9,10 @@
 import BigNumber
 import ComposableArchitecture
 
+enum MainReducerError: Error {
+    case invalidValues
+}
+
 @Reducer
 struct MainReducer {
     @ObservableState
@@ -29,6 +33,9 @@ struct MainReducer {
         var enabledMultiply = true
         var enabledDivide = true
         var enabledFactorial = true
+
+        var enabledClear = true
+        var enabledEquals = true
 
         var leftValue: BInt?
         var displayingText = ""
@@ -52,14 +59,14 @@ struct MainReducer {
             switch calculatorButton {
             case let .operation(operation):
                 if operation.isUnary {
-                    set(enabled: false)
+                    set(enabled: false, all: false)
                 }
             default:
                 break
             }
         }
 
-        mutating func set(enabled: Bool) {
+        mutating func set(enabled: Bool, all: Bool) {
             enabled0 = enabled
             enabled1 = enabled
             enabled2 = enabled
@@ -76,6 +83,11 @@ struct MainReducer {
             enabledMultiply = enabled
             enabledDivide = enabled
             enabledFactorial = enabled
+
+            if all {
+                enabledClear = enabled
+                enabledEquals = enabled
+            }
         }
 
         mutating func onButtonPressed(calculatorButton: CalculatorButton) -> Operation? {
@@ -83,7 +95,10 @@ struct MainReducer {
             case let .digit(value):
                 onDigitButtonPressed(value: value)
             case .clear:
+                leftValue = nil
                 displayingText = ""
+                latestOperationButton = nil
+                set(enabled: true, all: true)
             case let .operation(value):
                 switch value {
                 case .plus, .minus, .multiply, .divide, .factorial:
@@ -115,11 +130,15 @@ struct MainReducer {
                 let lhs = state.leftValue
                 let rhs = BInt(state.displayingText)
                 if let operation = state.onButtonPressed(calculatorButton: button) {
+                    state.set(enabled: false, all: true)
                     return .run { send in
+                        guard let lhs, let rhs else {
+                            throw MainReducerError.invalidValues
+                        }
                         let value = await Task {
                             operation.calculateValue(
-                                lhs: lhs!,
-                                rhs: rhs!
+                                lhs: lhs,
+                                rhs: rhs
                             )
                         }.value
                         await send(.calculated(value), animation: .calciumDefault)
@@ -131,9 +150,7 @@ struct MainReducer {
             case let .calculated(value):
                 state.displayingText = String(value)
                 state.latestOperationButton = .operation(.equals)
-
-                state.set(enabled: true)
-
+                state.set(enabled: true, all: true)
                 return .none
             }
         }
