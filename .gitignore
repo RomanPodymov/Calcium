@@ -6,5 +6,4 @@ CalciumTests/Info.plist
 CalciumCommon/build/
 local.properties
 gradle/
-gradlew
 gradlew.bat
