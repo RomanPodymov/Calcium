@@ -1,3 +1,11 @@
+//
+//  CalciumEnums.kt
+//  Calcium
+//
+//  Created by Roman Podymov on 01/07/2024.
+//  Copyright © 2024 Calcium. All rights reserved.
+//
+
 package com.jetbrains.kmm.shared
 
 interface CalculatorButtonRepresentable {
