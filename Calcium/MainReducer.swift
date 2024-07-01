@@ -40,11 +40,11 @@ struct MainReducer {
 
         var leftValue: BInt?
         var displayingText = ""
-        var latestOperationButton: CalculatorButton?
+        var latestOperationButton: CalciumCommon.CalculatorButton?
 
         private mutating func onDigitButtonPressed(value: CalciumCommon.Digit) {
             switch latestOperationButton {
-            case .operation(.equals):
+            case let operation as CalciumCommon.CalculatorButton.SomeOperation where operation.operation == .equals:
                 displayingText = ""
                 latestOperationButton = nil
             default:
@@ -53,15 +53,13 @@ struct MainReducer {
             displayingText += value.displayingValue
         }
 
-        private mutating func onOperationButtonPressed(calculatorButton: CalculatorButton) {
+        private mutating func onOperationButtonPressed(calculatorButton: CalciumCommon.CalculatorButton) {
             latestOperationButton = calculatorButton
             leftValue = .init(displayingText)
             displayingText = ""
             switch calculatorButton {
-            case let .operation(operation):
-                if operation.isUnary {
-                    set(enabled: false, all: false)
-                }
+            case let operation as CalciumCommon.CalculatorButton.SomeOperation where operation.operation.isUnary:
+                set(enabled: false, all: false)
             default:
                 break
             }
@@ -91,34 +89,38 @@ struct MainReducer {
             }
         }
 
-        mutating func onButtonPressed(calculatorButton: CalculatorButton) -> Operation? {
+        mutating func onButtonPressed(calculatorButton: CalciumCommon.CalculatorButton) -> Operation? {
             switch calculatorButton {
-            case let .digit(value):
-                onDigitButtonPressed(value: value)
-            case .clear:
+            case let digit as CalciumCommon.CalculatorButton.SomeDigit:
+                onDigitButtonPressed(value: digit.digit)
+            case is CalciumCommon.CalculatorButton.Clear:
                 leftValue = nil
                 displayingText = ""
                 latestOperationButton = nil
                 set(enabled: true, all: true)
-            case let .operation(value):
-                switch value {
+            case let operation as CalciumCommon.CalculatorButton.SomeOperation:
+                switch operation.operation {
                 case .plus, .minus, .multiply, .divide, .factorial:
                     onOperationButtonPressed(calculatorButton: calculatorButton)
                 case .equals:
                     switch latestOperationButton {
-                    case let .operation(operation):
-                        return operation
+                    case let latestOperation as CalciumCommon.CalculatorButton.SomeOperation:
+                        return latestOperation.operation
                     default:
                         break
                     }
+                default:
+                    break
                 }
+            default:
+                break
             }
             return nil
         }
     }
 
     enum Action: Sendable {
-        case pressButton(CalculatorButton)
+        case pressButton(CalciumCommon.CalculatorButton)
         case calculated(BInt)
     }
 
@@ -150,7 +152,7 @@ struct MainReducer {
                 }
             case let .calculated(value):
                 state.displayingText = String(value)
-                state.latestOperationButton = .operation(.equals)
+                state.latestOperationButton = .SomeOperation(operation: .equals)
                 state.set(enabled: true, all: true)
                 return .none
             }
@@ -158,4 +160,5 @@ struct MainReducer {
     }
 }
 
+extension CalciumCommon.CalculatorButton: @unchecked Sendable {}
 extension BInt: @unchecked Sendable {}

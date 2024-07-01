@@ -9,24 +9,13 @@
 import BigNumber
 import CalciumCommon
 
-protocol CalculatorButtonRepresentable {
-    var displayingValue: String { get }
-}
-
-extension CalciumCommon.Digit: CalculatorButtonRepresentable {
-    var displayingValue: String {
+extension CalciumCommon.Digit: CalciumCommon.CalculatorButtonRepresentable {
+    public var displayingValue: String {
         String(value)
     }
 }
 
-enum Operation: Equatable {
-    case plus
-    case minus
-    case multiply
-    case divide
-    case factorial
-    case equals
-
+extension CalciumCommon.Operation {
     func calculateValue(lhs: BInt, rhs: BInt) -> BInt {
         switch self {
         case .plus:
@@ -41,6 +30,8 @@ enum Operation: Equatable {
             lhs.factorial()
         case .equals:
             0
+        default:
+            0
         }
     }
 
@@ -54,8 +45,8 @@ enum Operation: Equatable {
     }
 }
 
-extension Operation: CalculatorButtonRepresentable {
-    var displayingValue: String {
+extension CalciumCommon.Operation: CalciumCommon.CalculatorButtonRepresentable {
+    public var displayingValue: String {
         switch self {
         case .plus:
             "+"
@@ -69,25 +60,23 @@ extension Operation: CalculatorButtonRepresentable {
             "!"
         case .equals:
             "="
+        default:
+            ""
         }
     }
 }
 
-enum CalculatorButton: Equatable {
-    case digit(CalciumCommon.Digit)
-    case clear
-    case operation(Operation)
-}
-
-extension CalculatorButton: CalculatorButtonRepresentable {
-    var displayingValue: String {
+extension CalciumCommon.CalculatorButton: CalciumCommon.CalculatorButtonRepresentable {
+    public var displayingValue: String {
         switch self {
-        case let .digit(value):
-            value.displayingValue
-        case .clear:
+        case let digit as CalciumCommon.CalculatorButton.SomeDigit:
+            digit.digit.displayingValue
+        case is CalciumCommon.CalculatorButton.Clear:
             "C"
-        case let .operation(operation):
-            operation.displayingValue
+        case let operation as CalciumCommon.CalculatorButton.SomeOperation:
+            operation.operation.displayingValue
+        default:
+            ""
         }
     }
 }
