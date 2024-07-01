@@ -7,6 +7,7 @@
 //
 
 @testable import CalciumApp
+import CalciumCommon
 import ComposableArchitecture
 import XCTest
 
@@ -18,8 +19,11 @@ class CalciumTests: XCTestCase {
         let screen = MainScreen(
             store: store
         )
-        store.send(.pressButton(.digit(.one)))
-        XCTAssertEqual(screen.store.state.displayingText, CalculatorButton.digit(.one).displayingValue)
+        store.send(.pressButton(.SomeDigit(digit: .one)))
+        XCTAssertEqual(
+            screen.store.state.displayingText,
+            CalciumCommon.CalculatorButton.SomeDigit(digit: .one).displayingValue
+        )
     }
 
     @MainActor
@@ -30,10 +34,10 @@ class CalciumTests: XCTestCase {
         let screen = MainScreen(
             store: store
         )
-        store.send(.pressButton(.digit(.one)))
-        store.send(.pressButton(.operation(.plus)))
-        store.send(.pressButton(.digit(.two)))
-        store.send(.pressButton(.operation(.equals)))
+        store.send(.pressButton(.SomeDigit(digit: .one)))
+        store.send(.pressButton(.SomeOperation(operation: .plus)))
+        store.send(.pressButton(.SomeDigit(digit: .two)))
+        store.send(.pressButton(.SomeOperation(operation: .equals)))
 
         try await Task.sleep(nanoseconds: 1_000_000_000)
 
