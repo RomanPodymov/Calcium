@@ -6,7 +6,7 @@
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
-package com.jetbrains.kmm.shared
+package com.romanpodymov.kmm.shared
 
 interface CalculatorButtonRepresentable {
     val displayingValue: String
