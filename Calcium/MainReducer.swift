@@ -119,7 +119,7 @@ struct MainReducer {
         }
     }
 
-    enum Action: Sendable {
+    enum Action {
         case pressButton(CalciumCommon.CalculatorButton)
         case calculated(BInt)
     }
@@ -159,6 +159,3 @@ struct MainReducer {
         }
     }
 }
-
-extension CalciumCommon.CalculatorButton: @unchecked Sendable {}
-extension BInt: @unchecked Sendable {}
