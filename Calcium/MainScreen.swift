@@ -35,9 +35,9 @@ struct MainScreen: View {
             VStack {
                 ScrollView {
                     Text(store.state.displayingText)
-                        .lineLimit(5)
+                        .lineLimit(nil)
                 }
-                .frame(height: geometry.size.height / 4)
+                .frame(height: geometry.size.height / 8)
 
                 HStack {
                     view(for: .SomeDigit(digit: .one), enabled: store.state.enabled1)
