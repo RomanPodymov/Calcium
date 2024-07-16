@@ -6,3 +6,4 @@ CalciumTests/Info.plist
 CalciumCommon/build/
 local.properties
 gradlew.bat
+.kotlin/*

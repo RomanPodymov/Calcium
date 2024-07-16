@@ -8,7 +8,7 @@
 
 package com.romanpodymov.kmm.shared
 
-import kotlinx.coroutines.*
+import com.ionspin.kotlin.bignum.*
 
 interface CalculatorButtonRepresentable {
     val displayingValue: String
@@ -40,19 +40,4 @@ sealed class CalculatorButton {
     object Clear : CalculatorButton()
     class SomeDigit(val digit: Digit) : CalculatorButton()
     class SomeOperation(val operation: Operation) : CalculatorButton()
-}
-
-val fibonacciSeq = sequence {
-    var a = 0
-    var b = 1
-
-    yield(1)
-
-    while (true) {
-        yield(a + b)
-
-        val tmp = a + b
-        a = b
-        b = tmp
-    }
 }
