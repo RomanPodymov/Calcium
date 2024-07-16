@@ -9,9 +9,15 @@ kotlin {
    val iosTargets = listOf(iosX64(), iosArm64(), iosSimulatorArm64())
 
    iosTargets.forEach {
-      it.binaries.framework {
-          baseName = "CalciumCommon"
-          xcf.add(this)
-      }
+       it.binaries.framework {
+           baseName = "CalciumCommon"
+           xcf.add(this)
+       }
    }
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+        }
+    }
 }
