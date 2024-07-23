@@ -15,9 +15,17 @@ class CalciumEnumsTests {
     @Test
     fun valuesTest() {
         assertTrue {
-            val one = Digit.one
-            val two = Digit.two
+            val one = Digit.One
+            val two = Digit.Two
             one.value + two.value == 3
+        }
+    }
+
+    @Test
+    fun calculateValuesTest() {
+        assertTrue {
+            val operation = Operation.Plus
+            operation.calculateValueKMM("1", "2") == "3"
         }
     }
 }
