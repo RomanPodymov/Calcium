@@ -7,7 +7,7 @@ options:
 packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture
-    version: 1.11.2
+    version: 1.12.0
   BigNumber:
     url: https://github.com/mkrd/Swift-BigInt
     version: 2.3.0
