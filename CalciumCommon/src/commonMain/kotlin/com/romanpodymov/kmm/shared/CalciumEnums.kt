@@ -15,51 +15,49 @@ interface CalculatorButtonRepresentable {
 }
 
 enum class Digit(val value: Int) {
-    One(1),
-    Two(2),
-    Three(3),
-    Four(4),
-    Five(5),
-    Six(6),
-    Seven(7),
-    Eight(8),
-    Nine(9),
-    Zero(0)
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7),
+    EIGHT(8),
+    NINE(9),
+    ZERO(0)
 }
 
 enum class Operation {
-    Plus {
-         override fun calculateValueKMM(lhs: String, rhs: String): String {
-             return (BigDecimal.parseString(lhs) + BigDecimal.parseString(rhs)).toPlainString()
+    PLUS {
+         override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
+             return BigDecimal.parseString(lhs) + BigDecimal.parseString(rhs)
          }
          },
-    Minus {
-        override fun calculateValueKMM(lhs: String, rhs: String): String {
-            return (BigDecimal.parseString(lhs) - BigDecimal.parseString(rhs)).toString()
+    MINUS {
+        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
+            return BigDecimal.parseString(lhs) - BigDecimal.parseString(rhs)
         }
     },
-    Multiply {
-        override fun calculateValueKMM(lhs: String, rhs: String): String {
-            return (BigDecimal.parseString(lhs) * BigDecimal.parseString(rhs)).toString()
+    MULTIPLY {
+        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
+            return BigDecimal.parseString(lhs) * BigDecimal.parseString(rhs)
         }
     },
-    Divide {
-        override fun calculateValueKMM(lhs: String, rhs: String): String {
-            return (BigDecimal.parseString(lhs) / BigDecimal.parseString(rhs)).toString()
+    DIVIDE {
+        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
+            return BigDecimal.parseString(lhs) / BigDecimal.parseString(rhs)
         }
     },
-    Factorial {
-        override fun calculateValueKMM(lhs: String, rhs: String): String {
-            return ""
+    FACTORIAL {
+        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
+            return BigDecimal.ZERO
         }
     },
-    Equals {
-        override fun calculateValueKMM(lhs: String, rhs: String): String {
-            return ""
-        }
+    EQUALS {
+        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal = BigDecimal.ZERO
     };
 
-    abstract fun calculateValueKMM(lhs: String, rhs: String): String
+    abstract fun calculateValueKMM(lhs: String, rhs: String): BigDecimal
 }
 
 sealed class CalculatorButton {

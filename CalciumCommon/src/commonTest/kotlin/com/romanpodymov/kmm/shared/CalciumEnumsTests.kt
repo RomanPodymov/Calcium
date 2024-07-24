@@ -8,6 +8,8 @@
 
 package com.romanpodymov.kmm.shared
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -15,8 +17,8 @@ class CalciumEnumsTests {
     @Test
     fun valuesTest() {
         assertTrue {
-            val one = Digit.One
-            val two = Digit.Two
+            val one = Digit.ONE
+            val two = Digit.TWO
             one.value + two.value == 3
         }
     }
@@ -24,8 +26,8 @@ class CalciumEnumsTests {
     @Test
     fun calculateValuesTest() {
         assertTrue {
-            val operation = Operation.Plus
-            operation.calculateValueKMM("1", "2") == "3"
+            val operation = Operation.PLUS
+            operation.calculateValueKMM(BigDecimal.ONE.toPlainString(), BigDecimal.TWO.toPlainString()) == "3".toBigDecimal()
         }
     }
 }
