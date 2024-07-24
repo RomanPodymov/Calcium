@@ -11,6 +11,9 @@ packages:
   BigNumber:
     url: https://github.com/mkrd/Swift-BigInt
     version: 2.3.0
+  Resolver:
+    url: https://github.com/hmlongco/Resolver
+    version: 1.5.1
 targets:
   CalciumApp:
     type: application
@@ -20,6 +23,7 @@ targets:
       - framework: CalciumCommon/build/XCFrameworks/release/CalciumCommon.xcframework
       - package: ComposableArchitecture
       - package: BigNumber
+      - package: Resolver
     info:
       path: Calcium/Info.plist
     postCompileScripts:

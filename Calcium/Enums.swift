@@ -9,6 +9,21 @@
 import BigNumber
 import CalciumCommon
 
+protocol Calculator {
+    func calculateValue(lhs: String, rhs: String, operation: CalciumCommon.Operation) -> String
+}
+
+struct NativeCalculator: Calculator {
+    func calculateValue(lhs: String, rhs: String, operation: CalciumCommon.Operation) -> String {
+        .init(
+            operation.calculateValue(
+                lhs: .init(lhs) ?? .init(),
+                rhs: .init(rhs) ?? .init()
+            )
+        )
+    }
+}
+
 extension CalciumCommon.Digit: CalciumCommon.CalculatorButtonRepresentable {
     public var displayingValue: String {
         String(value)
