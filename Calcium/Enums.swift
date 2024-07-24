@@ -24,6 +24,12 @@ struct NativeCalculator: Calculator {
     }
 }
 
+extension KMMCalculator: Calculator {
+    func calculateValue(lhs: String, rhs: String, operation: Operation) -> String {
+        operation.calculateValueKMM(lhs: lhs, rhs: rhs).toPlainString()
+    }
+}
+
 extension CalciumCommon.Digit: CalciumCommon.CalculatorButtonRepresentable {
     public var displayingValue: String {
         String(value)

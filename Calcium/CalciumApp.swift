@@ -6,6 +6,7 @@
 //  Copyright © 2024 Calcium. All rights reserved.
 //
 
+import CalciumCommon
 import ComposableArchitecture
 import Resolver
 import SwiftUI
@@ -13,7 +14,7 @@ import SwiftUI
 @main
 struct CalciumApp: App {
     init() {
-        Resolver.register { NativeCalculator() }
+        Resolver.register { KMMCalculator() }
             .implements(Calculator.self)
     }
 

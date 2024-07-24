@@ -65,3 +65,5 @@ sealed class CalculatorButton {
     class SomeDigit(val digit: Digit) : CalculatorButton()
     class SomeOperation(val operation: Operation) : CalculatorButton()
 }
+
+class KMMCalculator {}
