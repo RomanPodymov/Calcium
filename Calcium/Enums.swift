@@ -9,11 +9,7 @@
 import BigNumber
 import CalciumCommon
 
-protocol Calculator {
-    func calculateValue(lhs: String, rhs: String, operation: CalciumCommon.Operation) -> String
-}
-
-struct NativeCalculator: Calculator {
+class NativeCalculator: CalciumCommon.Calculator {
     func calculateValue(lhs: String, rhs: String, operation: CalciumCommon.Operation) -> String {
         .init(
             operation.calculateValue(
@@ -21,12 +17,6 @@ struct NativeCalculator: Calculator {
                 rhs: .init(rhs) ?? .init()
             )
         )
-    }
-}
-
-extension KMMCalculator: Calculator {
-    func calculateValue(lhs: String, rhs: String, operation: Operation) -> String {
-        operation.calculateValueKMM(lhs: lhs, rhs: rhs).toPlainString()
     }
 }
 

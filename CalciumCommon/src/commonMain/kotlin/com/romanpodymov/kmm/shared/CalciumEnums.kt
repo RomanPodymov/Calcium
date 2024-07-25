@@ -66,4 +66,12 @@ sealed class CalculatorButton {
     class SomeOperation(val operation: Operation) : CalculatorButton()
 }
 
-class KMMCalculator {}
+interface Calculator {
+    fun calculateValue(lhs: String, rhs: String, operation: Operation): String
+}
+
+class KMMCalculator: Calculator {
+    override fun calculateValue(lhs: String, rhs: String, operation: Operation): String {
+        return operation.calculateValueKMM(lhs, rhs).toPlainString()
+    }
+}
