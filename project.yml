@@ -10,7 +10,7 @@ packages:
     version: 1.12.1
   BigNumber:
     url: https://github.com/mkrd/Swift-BigInt
-    version: 2.3.0
+    branch: master
   Resolver:
     url: https://github.com/hmlongco/Resolver
     version: 1.5.1

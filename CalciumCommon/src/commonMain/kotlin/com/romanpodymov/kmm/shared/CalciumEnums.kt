@@ -29,35 +29,35 @@ enum class Digit(val value: Int) {
 
 enum class Operation {
     PLUS {
-         override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
-             return BigDecimal.parseString(lhs) + BigDecimal.parseString(rhs)
+         override fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal {
+             return lhs + rhs
          }
          },
     MINUS {
-        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
-            return BigDecimal.parseString(lhs) - BigDecimal.parseString(rhs)
+        override fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal {
+            return lhs - rhs
         }
     },
     MULTIPLY {
-        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
-            return BigDecimal.parseString(lhs) * BigDecimal.parseString(rhs)
+        override fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal {
+            return lhs * rhs
         }
     },
     DIVIDE {
-        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
-            return BigDecimal.parseString(lhs) / BigDecimal.parseString(rhs)
+        override fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal {
+            return lhs / rhs
         }
     },
     FACTORIAL {
-        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal {
+        override fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal {
             return BigDecimal.ZERO
         }
     },
     EQUALS {
-        override fun calculateValueKMM(lhs: String, rhs: String): BigDecimal = BigDecimal.ZERO
+        override fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal = BigDecimal.ZERO
     };
 
-    abstract fun calculateValueKMM(lhs: String, rhs: String): BigDecimal
+    internal abstract fun calculateValueKMM(lhs: BigDecimal, rhs: BigDecimal): BigDecimal
 }
 
 sealed class CalculatorButton {
@@ -72,6 +72,9 @@ interface Calculator {
 
 class KMMCalculator: Calculator {
     override fun calculateValue(lhs: String, rhs: String, operation: Operation): String {
-        return operation.calculateValueKMM(lhs, rhs).toPlainString()
+        return operation.calculateValueKMM(
+            BigDecimal.parseString(lhs),
+            BigDecimal.parseString(rhs)
+        ).toPlainString()
     }
 }

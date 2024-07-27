@@ -27,7 +27,7 @@ class CalciumEnumsTests {
     fun calculateValuesTest() {
         assertTrue {
             val operation = Operation.PLUS
-            operation.calculateValueKMM(BigDecimal.ONE.toPlainString(), BigDecimal.TWO.toPlainString()) == "3".toBigDecimal()
+            operation.calculateValueKMM(BigDecimal.ONE, BigDecimal.TWO) == "3".toBigDecimal()
         }
     }
 }
