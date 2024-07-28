@@ -30,10 +30,7 @@ extension CalciumCommon.Operation {
     func calculateValue(lhs: BInt, rhs: BInt) -> BInt {
         switch self {
         case .plus:
-            .init(calculateValueKMM(
-                lhs: .init(stringLiteral: lhs.asString(radix: 10)),
-                rhs: .init(stringLiteral: rhs.asString(radix: 10))
-            ).toPlainString()) ?? .init()
+            lhs + rhs
         case .minus:
             lhs - rhs
         case .multiply:
