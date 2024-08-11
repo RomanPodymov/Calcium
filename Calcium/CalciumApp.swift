@@ -28,3 +28,22 @@ struct CalciumApp: App {
         }
     }
 }
+
+@DependencyClient
+struct CalculatorClient {
+    // var forecast: @Sendable (_ location: GeocodingSearch.Result) async throws -> Forecast
+    var some: Int
+}
+
+extension DependencyValues {
+    var calculator: CalculatorClient {
+        get { self[CalculatorClient.self] }
+        set { self[CalculatorClient.self] = newValue }
+    }
+}
+
+extension CalculatorClient: DependencyKey {
+    static let liveValue = CalculatorClient(
+        some: 100
+    )
+}
