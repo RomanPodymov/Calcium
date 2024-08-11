@@ -31,8 +31,7 @@ struct CalciumApp: App {
 
 @DependencyClient
 struct CalculatorClient {
-    // var forecast: @Sendable (_ location: GeocodingSearch.Result) async throws -> Forecast
-    var some: Int
+    var calculateValue: (String, String, CalciumCommon.Operation) -> String = { _, _, _ in "" }
 }
 
 extension DependencyValues {
@@ -44,6 +43,8 @@ extension DependencyValues {
 
 extension CalculatorClient: DependencyKey {
     static let liveValue = CalculatorClient(
-        some: 100
+        calculateValue: {
+            NativeCalculator().calculateValue(lhs: $0, rhs: $1, operation: $2)
+        }
     )
 }

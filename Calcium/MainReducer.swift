@@ -143,10 +143,10 @@ struct MainReducer {
                             throw MainReducerError.invalidValues
                         }
                         let value = await Task {
-                            let result = calculator.calculateValue(
-                                lhs: lhs.asString(radix: 10),
-                                rhs: rhs.asString(radix: 10),
-                                operation: operation
+                            let result = otherCalculator.calculateValue(
+                                lhs.asString(radix: 10),
+                                rhs.asString(radix: 10),
+                                operation
                             )
                             return BInt(result) ?? .init()
                         }.value
