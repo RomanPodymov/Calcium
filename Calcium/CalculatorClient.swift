@@ -31,3 +31,13 @@ extension CalculatorClient: DependencyKey {
         }
     )
 }
+
+extension CalculatorClient: TestDependencyKey {
+    static let previewValue = Self(
+        calculateValue: {
+            NativeCalculator().calculateValue(lhs: $0, rhs: $1, operation: $2)
+        }
+    )
+
+    static let testValue = Self()
+}
