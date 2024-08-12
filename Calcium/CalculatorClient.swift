@@ -39,5 +39,5 @@ extension CalculatorClient: TestDependencyKey {
         }
     )
 
-    static let testValue = Self()
+    static let testValue = previewValue
 }
