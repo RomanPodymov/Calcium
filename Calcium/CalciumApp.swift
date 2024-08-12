@@ -13,11 +13,6 @@ import SwiftUI
 
 @main
 struct CalciumApp: App {
-    init() {
-        Resolver.register { NativeCalculator() }
-            .implements(Calculator.self)
-    }
-
     var body: some Scene {
         WindowGroup {
             MainScreen(
