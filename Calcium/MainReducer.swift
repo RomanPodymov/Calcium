@@ -9,7 +9,6 @@
 import BigNumber
 import CalciumCommon
 import ComposableArchitecture
-import Resolver
 
 enum MainReducerError: Error {
     case invalidValues
@@ -17,7 +16,7 @@ enum MainReducerError: Error {
 
 @Reducer
 struct MainReducer {
-    @Injected private var calculator: Calculator
+    @Dependency(\.calculator) var calculator
 
     @ObservableState
     struct State: Equatable {
@@ -142,7 +141,11 @@ struct MainReducer {
                             throw MainReducerError.invalidValues
                         }
                         let value = await Task {
-                            let result = calculator.calculateValue(lhs: lhs.asString(radix: 10), rhs: rhs.asString(radix: 10), operation: operation)
+                            let result = calculator.calculateValue(
+                                lhs.asString(radix: 10),
+                                rhs.asString(radix: 10),
+                                operation
+                            )
                             return BInt(result) ?? .init()
                         }.value
                         await send(.calculated(value), animation: .calciumDefault)
