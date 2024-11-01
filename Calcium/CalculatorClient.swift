@@ -11,8 +11,8 @@ import ComposableArchitecture
 import Resolver
 
 @DependencyClient
-struct CalculatorClient {
-    var calculateValue: (String, String, CalciumCommon.Operation) -> String = { _, _, _ in "" }
+struct CalculatorClient: Sendable {
+    var calculateValue: @Sendable (String, String, CalciumCommon.Operation) -> String = { _, _, _ in "" }
 }
 
 extension DependencyValues {
@@ -22,15 +22,17 @@ extension DependencyValues {
     }
 }
 
-extension CalculatorClient: DependencyKey {
-    static let liveValue = CalculatorClient(
-        calculateValue: {
-            @Injected var calculator: Calculator
+/* extension CalculatorClient: DependencyKey {
+     static let liveValue = CalculatorClient(
+         calculateValue: {
+             /*@Injected var calculator: Calculator
 
-            return calculator.calculateValue(lhs: $0, rhs: $1, operation: $2)
-        }
-    )
-}
+             return calculator.calculateValue(lhs: $0, rhs: $1, operation: $2)*/
+
+             // return ""
+         }
+     )
+ } */
 
 extension CalculatorClient: TestDependencyKey {
     static let previewValue = {

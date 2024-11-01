@@ -7,7 +7,7 @@
 //
 
 import BigNumber
-import CalciumCommon
+@preconcurrency import CalciumCommon
 import ComposableArchitecture
 
 enum MainReducerError: Error {
