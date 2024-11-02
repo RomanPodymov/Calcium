@@ -12,7 +12,8 @@ import ComposableArchitecture
 import XCTest
 
 class CalciumTests: XCTestCase {
-    func testState() {
+    @MainActor
+    func testState() async {
         let store = Store(initialState: MainReducer.State()) {
             MainReducer()
         }
@@ -20,8 +21,9 @@ class CalciumTests: XCTestCase {
             store: store
         )
         store.send(.pressButton(.SomeDigit(digit: .one)))
+        let text = screen.store.state.displayingText
         XCTAssertEqual(
-            screen.store.state.displayingText,
+            text,
             CalciumCommon.CalculatorButton.SomeDigit(digit: .one).displayingValue
         )
     }
