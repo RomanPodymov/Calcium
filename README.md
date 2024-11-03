@@ -1,6 +1,6 @@
 # Calcium
 
-![Calcium running](https://github.com/RomanPodymov/MyNotino/blob/main/Screenshot/running.png "Calcium running")
+![Calcium running](https://github.com/RomanPodymov/Calcium/blob/main/Screenshot/running.png "Calcium running")
 
 ## How to run?
 
