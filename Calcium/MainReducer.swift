@@ -140,7 +140,7 @@ struct MainReducer {
                         guard let lhs, let rhs else {
                             throw MainReducerError.invalidValues
                         }
-                        let value = await Task {
+                        let value = await Task { @MainActor in
                             let result = calculator.calculateValue(
                                 lhs.asString(radix: 10),
                                 rhs.asString(radix: 10),

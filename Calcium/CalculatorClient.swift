@@ -8,24 +8,27 @@
 
 import CalciumCommon
 import ComposableArchitecture
-
-import Resolver
+@preconcurrency import Resolver
 
 @DependencyClient
 struct CalculatorClient: Sendable, DependencyKey, TestDependencyKey {
     var calculateValue: @Sendable (String, String, CalciumCommon.Operation) -> String = { _, _, _ in "" }
 
-    static let previewValue = // @Injected var calculator: Calculator
-
-        Self(calculateValue: {
-            NativeCalculator().calculateValue(lhs: $0, rhs: $1, operation: $2)
-        })
+    static let previewValue = CalculatorClient(
+        calculateValue: {
+            Resolver.resolve(
+                Calculator.self,
+                name: .name(fromString: "calculator")
+            ).calculateValue(lhs: $0, rhs: $1, operation: $2)
+        }
+    )
 
     static let liveValue = CalculatorClient(
         calculateValue: {
-            // @Injected var calculator: Calculator
-
-            NativeCalculator().calculateValue(lhs: $0, rhs: $1, operation: $2)
+            Resolver.resolve(
+                Calculator.self,
+                name: .name(fromString: "calculator")
+            ).calculateValue(lhs: $0, rhs: $1, operation: $2)
         }
     )
 

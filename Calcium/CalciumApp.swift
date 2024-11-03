@@ -8,15 +8,15 @@
 
 import CalciumCommon
 import ComposableArchitecture
-
 import Resolver
 import SwiftUI
 
 @main
 struct CalciumApp: App {
     init() {
-        // Resolver.register { NativeCalculator() }
-        //   .implements(Calculator.self)
+        Resolver.register(Calculator.self, name: .name(fromString: "calculator")) {
+            NativeCalculator()
+        }
     }
 
     var body: some Scene {
