@@ -1,0 +1,34 @@
+name: CalciumJobs
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Setup Xcode version
+        uses: maxim-lobanov/setup-xcode@v1.6.0
+        with:
+          xcode-version: 16.2
+      - name: gradle wrapper
+        run: gradle wrapper
+      - name: Test Kotlin
+        run: ./gradlew allTests
+      - name: Build with Gradle
+        run: ./gradlew assembleXCFramework
+      - name: Install Mint
+        run: brew install mint
+      - name: Generate Xcode project
+        run: mint bootstrap && mint run xcodegen
+      - name: Build and test iOS
+        run: xcodebuild test -project Calcium.xcodeproj -scheme CalciumApp -destination "platform=iOS Simulator,OS=17.0.1,name=iPhone 15" -skipMacroValidation
