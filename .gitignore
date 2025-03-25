@@ -7,3 +7,5 @@ CalciumCommon/build/
 local.properties
 gradlew.bat
 .kotlin/*
+gradlew
+gradle/wrapper
