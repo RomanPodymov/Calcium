@@ -44,6 +44,36 @@ struct MainReducer {
         var displayingText = ""
         var latestOperationButton: CalciumCommon.CalculatorButton?
 
+        nonisolated(unsafe) static let mainPaths: Set<WritableKeyPath<Self, Bool>> = [
+            \.enabled1,
+            \.enabled2,
+            \.enabled3,
+            \.enabled4,
+            \.enabled5,
+            \.enabled6,
+            \.enabled7,
+            \.enabled8,
+            \.enabled9,
+            \.enabled0,
+
+            \.enabledPlus,
+            \.enabledMinus,
+            \.enabledMultiply,
+            \.enabledDivide,
+            \.enabledFactorial,
+        ]
+
+        nonisolated(unsafe) static let additionalPaths: Set<WritableKeyPath<Self, Bool>> = [
+            \.enabledClear,
+            \.enabledEquals,
+        ]
+
+        init() {
+            for mainPath in Self.mainPaths.union(Self.additionalPaths) {
+                self[keyPath: mainPath] = true
+            }
+        }
+
         private mutating func onDigitButtonPressed(value: CalciumCommon.Digit) {
             switch latestOperationButton {
             case let operation as CalciumCommon.CalculatorButton.SomeOperation where operation.operation == .equals:
@@ -68,26 +98,14 @@ struct MainReducer {
         }
 
         mutating func set(enabled: Bool, all: Bool) {
-            enabled0 = enabled
-            enabled1 = enabled
-            enabled2 = enabled
-            enabled3 = enabled
-            enabled4 = enabled
-            enabled5 = enabled
-            enabled6 = enabled
-            enabled7 = enabled
-            enabled8 = enabled
-            enabled9 = enabled
-
-            enabledPlus = enabled
-            enabledMinus = enabled
-            enabledMultiply = enabled
-            enabledDivide = enabled
-            enabledFactorial = enabled
+            for mainPath in Self.mainPaths {
+                self[keyPath: mainPath] = enabled
+            }
 
             if all {
-                enabledClear = enabled
-                enabledEquals = enabled
+                for mainPath in Self.additionalPaths {
+                    self[keyPath: mainPath] = enabled
+                }
             }
         }
 
