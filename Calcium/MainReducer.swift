@@ -44,7 +44,7 @@ struct MainReducer {
         var displayingText = ""
         var latestOperationButton: CalciumCommon.CalculatorButton?
 
-        nonisolated(unsafe) static let mainPaths: Set<WritableKeyPath<Self, Bool>> = [
+        let mainPaths: Set<WritableKeyPath<Self, Bool>> = [
             \.enabled1,
             \.enabled2,
             \.enabled3,
@@ -60,16 +60,16 @@ struct MainReducer {
             \.enabledMinus,
             \.enabledMultiply,
             \.enabledDivide,
-            \.enabledFactorial,
+            \.enabledFactorial
         ]
 
-        nonisolated(unsafe) static let additionalPaths: Set<WritableKeyPath<Self, Bool>> = [
+        let additionalPaths: Set<WritableKeyPath<Self, Bool>> = [
             \.enabledClear,
-            \.enabledEquals,
+            \.enabledEquals
         ]
 
         init() {
-            for mainPath in Self.mainPaths.union(Self.additionalPaths) {
+            for mainPath in mainPaths.union(additionalPaths) {
                 self[keyPath: mainPath] = true
             }
         }
@@ -98,13 +98,13 @@ struct MainReducer {
         }
 
         mutating func set(enabled: Bool, all: Bool) {
-            for mainPath in Self.mainPaths {
-                self[keyPath: mainPath] = enabled
+            for path in mainPaths {
+                self[keyPath: path] = enabled
             }
 
             if all {
-                for mainPath in Self.additionalPaths {
-                    self[keyPath: mainPath] = enabled
+                for path in additionalPaths {
+                    self[keyPath: path] = enabled
                 }
             }
         }
